@@ -1,0 +1,4 @@
+[wokwi]
+version = 1
+firmware = '../build/ledmatrix-animation-and-sound.uf2'
+elf = '../build/ledmatrix-animation-and-sound.elf'
