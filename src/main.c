@@ -1,14 +1,16 @@
+#include <stdio.h>
+
 #include "pico/stdlib.h"
 #include "include/keypad.h"
 #include "include/matrix.h"
 #include "include/buzzer.h"
-#include "song.h"
 
-#include <stdio.h>
+#include "song.h"
+#include "animations.h"
+
 
 #define KEYPAD_PIN_ROWS {1, 2, 3, 4}  // Pinos das linhas do keypad
 #define KEYPAD_PIN_COLS {8, 9, 10, 11} // Pinos das colunas do keypad
-#define MATRIX_PIN 7 // Pino para controlar os LEDs
 
 rgb_led leds[LED_COUNT];
 
@@ -18,13 +20,6 @@ const char keymap[] = {
     '7', '8', '9', 'C',
     '*', '0', '#', 'D'
 };
-
-void play_melody(Buzzer *buzzer) {
-    for (size_t i = 0; i < 78; i++) {
-        buzzer_play_note(buzzer, melody[i], duration[i]);
-        sleep_ms(50); // Pausa entre notas
-    }
-}
 
 int main() {
     stdio_init_all();
@@ -45,11 +40,11 @@ int main() {
     keypad_set_key_map(&kp, keymap);
 
     // Inicializa a matriz de LEDs
-    matrix_init(MATRIX_PIN, leds);
+    matrix_init(MATRIX_LED_PIN, leds);
     matrix_clear(leds);
-    matrix_update(leds);
 
-    buzzer_init(&buzzer, BUZZER_PIN_A);
+    matrix_set_led(54, COLOR(255, 0 ,0), leds);
+    matrix_update(leds);
 
     printf("Sistema inicializado!\n");
 
@@ -57,9 +52,21 @@ int main() {
         char key = keypad_get_key(&kp);
         if (key != '\0') {
             printf("Tecla pressionada: %c\n", key);
-            play_melody(&buzzer);
+
+            switch(key) {
+                case '1':
+                animation_play(
+                            BUBBLE_SORT_FRAME_COUNT,
+                            6000,
+                            leds,
+                            bubble_sort_data
+                          );
+                          break;
+            }
+
+            matrix_update(leds);
         }
-        sleep_ms(50); // Aguarda para evitar leitura duplicada
+        sleep_ms(50);
     }
 
     return 0;

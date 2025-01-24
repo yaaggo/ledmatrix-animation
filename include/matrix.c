@@ -38,7 +38,7 @@ uint32_t letters[27] = {
     0x0000000,          // NULL
 };
 
-void matrix_init(uint pin, rgb_led *leds) {
+void matrix_init(uint8_t pin, rgb_led *leds) {
     uint offset = pio_add_program(pio0, &ws2818b_program);
     np_pio = pio0;
 
@@ -60,11 +60,21 @@ void matrix_init(uint pin, rgb_led *leds) {
 
 void matrix_set_led(uint8_t index, rgb_led color, rgb_led *leds) {
     if (index >= LED_COUNT) return; // Verifica se o índice é válido
-
     leds[index].activate = (color.r || color.g || color.b);
     leds[index].r = color.r;
     leds[index].g = color.g;
     leds[index].b = color.b;
+}
+
+void matrix_set_led_horizontally(uint8_t index, rgb_led color, rgb_led *leds) {
+    uint8_t row = index / LED_LINE;
+    uint8_t col = index % LED_LINE;
+
+    if (row % 2 == 0) col = LED_LINE - 1 - col;
+
+    index = (LED_LINE - 1 - row) * LED_LINE + col;
+
+    matrix_set_led(index, color, leds);
 }
 
 void matrix_set_led_xy(uint8_t x, uint8_t y, rgb_led color, rgb_led *leds) {
@@ -82,20 +92,19 @@ void matrix_clear(rgb_led *leds) {
 
 void matrix_update(rgb_led *leds) {
     for (uint8_t i = 0; i < LED_COUNT; ++i) {
-        pio_sm_put_blocking(np_pio, sm, (leds[i].g << 16) | (leds[i].r << 8) | leds[i].b);
+        pio_sm_put_blocking(np_pio, sm, leds[i].r);
+        pio_sm_put_blocking(np_pio, sm, leds[i].g);
+        pio_sm_put_blocking(np_pio, sm, leds[i].b);
     }
     sleep_us(100);
 }
 
 void matrix_letter(char letter, rgb_led color, rgb_led *leds) {
-    if (letter < 'A' || letter > 'Z') return; // Verifica se a letra é válida
+    uint32_t configure = letters[letter-'A'];
+    for(int i = 0; i < LED_COUNT; i++) {
+        if(configure & 1) matrix_set_led(i, color, leds);
 
-    uint32_t configure = letters[letter - 'A'];
-    for (int i = 0; i < LED_COUNT; i++) {
-        if (configure & 1) matrix_set_led(i, color, leds);
-        else matrix_set_led(i, COLOR(0, 0, 0), leds);
-
-        configure >>= 1;
+        configure = configure >> 1;
     }
 }
 

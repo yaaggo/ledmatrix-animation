@@ -48,3 +48,10 @@ uint16_t duration[] = {
     100, 100, 100, 100,
     100, 100, 100, 100
 };
+
+void play_melody(Buzzer *buzzer) {
+    for (uint8_t i = 0; i < 78; i++) {
+        buzzer_play_note(buzzer, melody[i], duration[i]);
+        sleep_ms(50);
+    }
+}

@@ -12,7 +12,7 @@
  */
 typedef struct {
     uint8_t pin;    ///< Pino GPIO do buzzer
-    uint slice;     ///< Slice do PWM associado ao buzzer
+    uint32_t slice;     ///< Slice do PWM associado ao buzzer
 } Buzzer;
 
 /**

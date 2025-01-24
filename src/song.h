@@ -2,6 +2,7 @@
 #define SONG_H
 
 #include <stdint.h>
+#include "include/buzzer.h"
 
 #define NOTE_B0  31
 #define NOTE_C1  33
@@ -95,5 +96,7 @@
 
 extern uint16_t melody[]; 
 extern uint16_t duration[]; 
+
+void play_melody(Buzzer *buzzer);
 
 #endif

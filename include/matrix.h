@@ -12,9 +12,10 @@ typedef struct pixel_t {
     uint8_t activate;
 } rgb_led ;
 
-void matrix_init(uint pin, rgb_led *leds);
+void matrix_init(uint8_t pin, rgb_led *leds);
 void matrix_set_led(uint8_t index, rgb_led color, rgb_led *leds);
 void matrix_set_led_xy(uint8_t x, uint8_t y, rgb_led color, rgb_led *leds);
+void matrix_set_led_horizontally(uint8_t index, rgb_led color, rgb_led *leds);
 void matrix_clear(rgb_led *leds);
 void matrix_update(rgb_led *leds);
 void matrix_letter(char letter, rgb_led color, rgb_led *leds);
