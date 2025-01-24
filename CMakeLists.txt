@@ -39,7 +39,7 @@ file(GLOB SRCSOURCES "src/*.c")
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(ledmatrix-animation-and-sound ${SRCSOURCES} ${LIBSOURCES} animations/animations.c)
+add_executable(ledmatrix-animation-and-sound ${SRCSOURCES} ${LIBSOURCES})
 
 pico_set_program_name(ledmatrix-animation-and-sound "ledmatrix-animation-and-sound")
 pico_set_program_version(ledmatrix-animation-and-sound "0.1")
