@@ -4,6 +4,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#define BUZZER_PIN_A 21
+#define BUZZER_PIN_B 10
+
 /**
  * Estrutura para representar um buzzer.
  */
@@ -19,7 +22,7 @@ typedef struct {
  * @param pin Pino GPIO ao qual o buzzer está conectado.
  * @return true se a inicialização for bem-sucedida, false caso contrário.
  */
-bool buzzer_init(Buzzer *buzzer, uint8_t pin);
+void buzzer_init(Buzzer *buzzer, uint8_t pin);
 
 /**
  * Configura e inicia o PWM para reproduzir um som com a frequência especificada.
@@ -28,7 +31,7 @@ bool buzzer_init(Buzzer *buzzer, uint8_t pin);
  * @param frequency Frequência do som em Hz.
  * @return true se a operação for bem-sucedida, false caso contrário.
  */
-bool buzzer_play(Buzzer *buzzer, uint32_t frequency);
+void buzzer_play(Buzzer *buzzer, uint32_t frequency);
 
 /**
  * Para o som emitido pelo buzzer e desativa o slice PWM associado.
@@ -45,6 +48,6 @@ void buzzer_stop(Buzzer *buzzer);
  * @param duration_ms Duração da nota em milissegundos.
  * @return true se a operação for bem-sucedida, false caso contrário.
  */
-bool buzzer_play_note(Buzzer *buzzer, uint32_t frequency, uint32_t duration_ms);
+void buzzer_play_note(Buzzer *buzzer, uint32_t frequency, uint32_t duration_ms);
 
 #endif // BUZZER_H
