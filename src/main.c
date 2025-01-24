@@ -46,22 +46,24 @@ int main() {
     matrix_set_led(54, COLOR(255, 0 ,0), leds);
     matrix_update(leds);
 
-    printf("Sistema inicializado!\n");
-
     while (1) {
         char key = keypad_get_key(&kp);
         if (key != '\0') {
             printf("Tecla pressionada: %c\n", key);
 
             switch(key) {
-                case '1':
-                animation_play(
-                            BUBBLE_SORT_FRAME_COUNT,
-                            6000,
-                            leds,
-                            bubble_sort_data
-                          );
-                          break;
+                case '1': {
+                    animation_play(BUBBLE_SORT_FRAME_COUNT, 6000, leds, bubble_sort_data);
+                    break;
+                }
+                case '2': {
+                    while(animation_play(FAN_FRAME_COUNT, 1000, leds, fan_data), 1);
+                    break;
+                }
+                case '3': {
+                    while(animation_play(MARIO_FRAME_COUNT, 500, leds, mario_data), 1);
+                    break;
+                }
             }
 
             matrix_update(leds);
