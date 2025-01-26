@@ -5,11 +5,12 @@
 #define LED_LINE 5
 #define MATRIX_LED_PIN 7
 
-#define COLOR(r, g, b) (rgb_led) {g, r, b}
+#define COLOR_RGB(r, g, b) (rgb_led) {r, g, b}
+#define COLOR_HEX(r, g, b) (g << 24) | (r << 16) | (b << 8)
 
 typedef struct pixel_t {
     uint8_t r, g, b;
-    uint8_t activate;
+    //uint8_t activate;
 } rgb_led ;
 
 void matrix_init(uint8_t pin, rgb_led *leds);

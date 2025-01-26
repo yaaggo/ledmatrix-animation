@@ -65,7 +65,6 @@ target_link_libraries(ledmatrix-animation-and-sound
         hardware_pio
         hardware_clocks
         hardware_pwm
-        
         )
 
 pico_add_extra_outputs(ledmatrix-animation-and-sound)

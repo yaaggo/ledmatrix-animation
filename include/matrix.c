@@ -48,10 +48,10 @@ void matrix_init(uint8_t pin, rgb_led *leds) {
         sm = pio_claim_unused_sm(np_pio, true);
     }
 
-    ws2818b_program_init(np_pio, sm, offset, pin, 800000.f);
+    ws2818b_program_init(np_pio, sm, offset, pin);
 
     for (uint i = 0; i < LED_COUNT; ++i) {
-        leds[i].activate = 0;
+        //leds[i].activate = 0;
         leds[i].r = 0;
         leds[i].g = 0;
         leds[i].b = 0;
@@ -60,7 +60,7 @@ void matrix_init(uint8_t pin, rgb_led *leds) {
 
 void matrix_set_led(uint8_t index, rgb_led color, rgb_led *leds) {
     if (index >= LED_COUNT) return; // Verifica se o índice é válido
-    leds[index].activate = (color.r || color.g || color.b);
+    //leds[index].activate = (color.r || color.g || color.b);
     leds[index].r = color.r;
     leds[index].g = color.g;
     leds[index].b = color.b;
@@ -85,16 +85,15 @@ void matrix_set_led_xy(uint8_t x, uint8_t y, rgb_led color, rgb_led *leds) {
 }
 
 void matrix_clear(rgb_led *leds) {
-    for (uint i = 0; i < LED_COUNT; ++i) {
-        matrix_set_led(i, COLOR(0, 0, 0), leds);
+    for (uint8_t i = 0; i < LED_COUNT; ++i) {
+        matrix_set_led(i, (rgb_led){0, 0, 0}, leds);
     }
 }
 
 void matrix_update(rgb_led *leds) {
     for (uint8_t i = 0; i < LED_COUNT; ++i) {
-        pio_sm_put_blocking(np_pio, sm, leds[i].r);
-        pio_sm_put_blocking(np_pio, sm, leds[i].g);
-        pio_sm_put_blocking(np_pio, sm, leds[i].b);
+        uint32_t color = COLOR_HEX(leds[i].r, leds[i].g, leds[i].b);
+        pio_sm_put_blocking(np_pio, sm, color);
     }
     sleep_us(100);
 }

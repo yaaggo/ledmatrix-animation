@@ -7,9 +7,7 @@
 #include "pico/stdlib.h"
 
 #define BUBBLE_SORT_FRAME_COUNT 23
-
 #define FAN_FRAME_COUNT 4
-
 #define MARIO_FRAME_COUNT 2
 
 rgb_led hex_to_rgb_conversor(uint32_t hex_color);

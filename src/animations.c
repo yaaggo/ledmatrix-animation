@@ -17,17 +17,15 @@ void animation_play(uint8_t frames, uint32_t duration, rgb_led *leds,
 
     for(uint8_t i = 0; i < frames; i++) {
         for(uint8_t j = 0; j < LED_COUNT; j++) {
-            rgb_led led = hex_to_rgb_conversor(animation[i][j]);
+            rgb_led led = 
+                hex_to_rgb_conversor(animation[i][j]);
 
             matrix_set_led_horizontally(
                 j, 
-                COLOR(led.r, led.g, led.b),
+                COLOR_RGB(led.r, led.g, led.b),
                 leds 
             );
-
-            //printf("%d %d %d\n", led.r, led.g, led.b);
         }
-
         matrix_update(leds);
         sleep_ms(frametime);
     }
